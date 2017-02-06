@@ -1,0 +1,6 @@
+# Base apps
+psycopg2
+Django
+requests
+lxml
+djangorestframework

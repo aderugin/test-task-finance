@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block page_body %}
+    <a href="{% url "insiders-trades" stock.slug %}">Инсайдеры</a><br>
+    <a href="{% url "delta-list" stock.slug %}">Минимальные периоды изменения цены</a><br>
+    {% if form %}
+        <h1>Данные о разнице цен</h1>
+        <form action="." method="get">
+            {{ form.as_table }}
+            <button type="submit">Применить</button>
+        </form>
+    {% else %}
+        <a href="{% url "analytics" stock.slug %}">Данные о разнице цен</a><br>
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Open</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close / Last</th>
+                <th>Volume</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for price in stockprice_list %}
+                <tr>
+                    <td>{{ price.date }}</td>
+                    <td>
+                        {{ price.open }}
+                        {% if price.open_delta is not None %}
+                            <div style="{% if price.open_delta >= 0 %}color:green{% else %}color:red{% endif %}">
+                                +{{ price.open_delta }}
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ price.high }}
+                        {% if price.high_delta is not None %}
+                            <div style="{% if price.high_delta >= 0 %}color:green{% else %}color:red{% endif %}">
+                                +{{ price.high_delta }}
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ price.low }}
+                        {% if price.low_delta is not None %}
+                            <div style="{% if price.low_delta >= 0 %}color:green{% else %}color:red{% endif %}">
+                                +{{ price.low_delta }}
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ price.close }}
+                        {% if price.close_delta is not None %}
+                            <div style="{% if price.close_delta >= 0 %}color:green{% else %}color:red{% endif %}">
+                                +{{ price.close_delta }}
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>{{ price.volume }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

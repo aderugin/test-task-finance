@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block page_body %}
+    <h1>Минимальные периоды изменения цены</h1>
+    <form action="." methon="get">
+        {{ form.as_table }}
+        <button type="submit">Применить</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Дата, с</th>
+                <th>Дата, по</th>
+                <th>Разница</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for delta in delta_list %}
+                <tr>
+                    <td>{{ delta.date_from }}</td>
+                    <td>{{ delta.date_to }}</td>
+                    <td style="{% if delta.delta >= 0 %}color:green{% else %}color:red{% endif %}">{{ delta.delta }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

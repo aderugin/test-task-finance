@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block page_body %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Relation</th>
+                <th>Transaction type</th>
+                <th>Owner type</th>
+                <th>Shares traded</th>
+                <th>Last price</th>
+                <th>Shares held</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trade in insidertrade_list %}
+                <tr>
+                    {% if insider %}
+                        <td>{{ trade.insider }}</td>
+                    {% else %}
+                        <td><a href="{% url "insider-trade" stock.slug trade.insider.id %}">{{ trade.insider }}</a></td>
+                    {% endif %}
+                    <td>{{ trade.date }}</td>
+                    <td>{{ trade.relation }}</td>
+                    <td>{{ trade.transaction_type }}</td>
+                    <td>{{ trade.owner_type }}</td>
+                    <td>{{ trade.shares_traded }}</td>
+                    <td>{{ trade.last_price }}</td>
+                    <td>{{ trade.shares_held }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if paginator.num_pages > 1 %}
+        {% for page_num in paginator.page_range %}
+            {% if page_num == page_obj.number %}
+                <span>{{ page_num }}</span>
+            {% else %}
+                <a href="?page={{ page_num }}">{{ page_num }}</a>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

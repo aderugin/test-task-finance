@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+
+{% block page_body %}
+    {% for stock in stock_list %}
+        <a href="{{ stock.get_absolute_url }}">{{ stock.slug.upper }}</a><br>
+    {% endfor %}
+{% endblock %}

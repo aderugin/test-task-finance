@@ -1,0 +1,26 @@
+version: "2"
+
+services:
+    webapp:
+        build: .
+        container_name: finance.local
+        ports:
+            - ${WEBAPP_PORT}:8000
+        command: bash -c "while true; do echo 'I am alive!'; sleep 3600; done"
+        environment:
+            - C_FORCE_ROOT=true
+        depends_on:
+            - postgres
+        volumes:
+            - .:/webapp
+    
+    postgres:
+        image: postgres:9.6
+        container_name: postgres.local
+        ports:
+            - 5431:5432
+        environment:
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_USER=postgres
+        volumes:
+            - /var/lib/postgresql/data
